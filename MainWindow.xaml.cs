@@ -21,6 +21,8 @@ namespace TskManager_WPF
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime dateTime { get; set; }
         public bool IsDone { get; set; }
     }
     /// <summary>
@@ -42,6 +44,7 @@ namespace TskManager_WPF
 
         private DB_completed dB_completed = new DB_completed();
         private DB_uncompleted dB_uncompleted = new DB_uncompleted();
+        TaskItem taskItem=new TaskItem();
         static public int current_task_id;
         public static bool is_new = true;
         
@@ -53,8 +56,10 @@ namespace TskManager_WPF
                 var selectedItem = listView.SelectedItem as TaskItem; // Припустимо, що ваші елементи є типу TaskItem
                 if (selectedItem != null)
                 {
-                    current_task_id = selectedItem.ID; // Отримання ідентифікатора з вибраного елемента
+                    current_task_id = selectedItem.ID;
+                    taskItem = selectedItem;
                 }
+                
             }
 
         } 
@@ -70,6 +75,7 @@ namespace TskManager_WPF
                 DateTime datetime = Convert.ToDateTime(row["datetime"]);
                 bool isDone = Convert.ToBoolean(row["is_done"]);
                 string doneStatus = isDone ? "Done" : "Not Done";
+
                 ListViewItem item = new ListViewItem();
                 item.Content = $"{datetime}: {name}";
                 item.Tag = id; 
@@ -79,6 +85,8 @@ namespace TskManager_WPF
                     {
                         ID = id,
                         Name = $"{datetime}: {name}",
+                        Description = description ,
+                        dateTime = datetime ,
                         IsDone = isDone
                     });
                 }
@@ -88,6 +96,8 @@ namespace TskManager_WPF
                     {
                         ID = id,
                         Name = $"{datetime}: {name}",
+                        Description = description,
+                        dateTime = datetime,
                         IsDone = isDone
                     });
 
@@ -112,7 +122,7 @@ namespace TskManager_WPF
         private void newtaskbutton_Click(object sender, RoutedEventArgs e)
         {
             is_new = true;
-            Window1 window1 = new Window1(this);
+            Window1 window1 = new Window1(this, taskItem);
             window1.ShowDialog();
 
 
@@ -133,7 +143,7 @@ namespace TskManager_WPF
             if (id_task_check())
             {
                 is_new = false;
-                Window1 window1 = new Window1(this);
+                Window1 window1 = new Window1(this, taskItem);
                 window1.ShowDialog();
                 PopulateListView();
             }

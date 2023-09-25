@@ -21,32 +21,40 @@ namespace TskManager_WPF
     /// </summary>
     public partial class Window1
     {
-        public Window1(MainWindow parentwindow )
+        public Window1(MainWindow parentwindow, TaskItem taskItem)
         {
             InitializeComponent();
             this.parentwindow = parentwindow;
-            if (!MainWindow.is_new) { checkbox1.Visibility = Visibility.Visible; addnewtask_textblock.Text = "Change Task"; }
+            if (!MainWindow.is_new) 
+            { checkbox1.Visibility = Visibility.Visible;
+              addnewtask_textblock.Text = "Change Task";
+                name = taskItem.Name;
+                description=taskItem.Description;
+                date = taskItem.dateTime;
+                time = taskItem.dateTime;
+            }
+
         }
         MainWindow parentwindow;
         
-        public string name { get { return name_textbox.Text; } }
-        public string description { get { return description_textbox.Text; } }
-        public DateTime date { get { return date_picker.SelectedDate ?? DateTime.Now; } }
-        public bool is_completed { get { if (checkbox1.IsChecked == true) return true; else return false; } }
-        public DateTime time { get { return time_picker.SelectedTime.Value; } }
+        public string name { get { return name_textbox.Text; } set { name_textbox.Text = value; } }
+        public string description { get { return description_textbox.Text; } set { description_textbox.Text = value; }}
+        public DateTime date { get { return date_picker.SelectedDate ?? DateTime.Now; } set { date_picker.SelectedDate = value; }}
+        public bool is_completed{get { return checkbox1.IsChecked == true; } set { checkbox1.IsChecked = value; }}
+        public DateTime time{get { return time_picker.SelectedTime ?? DateTime.Now; }set { time_picker.SelectedTime = value; }}
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DB_uncompleted dB_uncompleted = new DB_uncompleted();
             if (MainWindow.is_new)
             {
-                MessageBox.Show(date.AddMinutes(time.Minute).AddHours(time.Hour).ToString());
                 dB_uncompleted.newtask(name, description, date.AddMinutes(time.Minute).AddHours(time.Hour), is_completed);
                 parentwindow.PopulateListView();
                 Close();
             }
             else
             {
-                dB_uncompleted.change_task(MainWindow.current_task_id, name, description, date, is_completed);
+                dB_uncompleted.change_task(MainWindow.current_task_id, name, description, date.AddMinutes(time.Minute).AddHours(time.Hour), is_completed);
                 Close();
             }
         }
