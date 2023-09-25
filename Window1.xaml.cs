@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Server;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,12 +33,14 @@ namespace TskManager_WPF
         public string description { get { return description_textbox.Text; } }
         public DateTime date { get { return date_picker.SelectedDate ?? DateTime.Now; } }
         public bool is_completed { get { if (checkbox1.IsChecked == true) return true; else return false; } }
+        public DateTime time { get { return time_picker.SelectedTime.Value; } }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DB_uncompleted dB_uncompleted = new DB_uncompleted();
             if (MainWindow.is_new)
             {
-                dB_uncompleted.newtask(name, description, date, is_completed);
+                MessageBox.Show(date.AddMinutes(time.Minute).AddHours(time.Hour).ToString());
+                dB_uncompleted.newtask(name, description, date.AddMinutes(time.Minute).AddHours(time.Hour), is_completed);
                 parentwindow.PopulateListView();
                 Close();
             }

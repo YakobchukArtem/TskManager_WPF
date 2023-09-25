@@ -18,7 +18,7 @@
         <TextBox x:Name="description_textbox" HorizontalAlignment="Left" Background="White" Height="30" Margin="341,170,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="215" RenderTransformOrigin="-1.21,1.637"/>
         <DatePicker x:Name="date_picker" Background="White" HorizontalAlignment="Left" Height="30" Margin="341,250,0,0" VerticalAlignment="Top" Width="215"/>
 
-        <materialDesign:TimePicker x:Name="time_picker" HorizontalAlignment="Left" Height="29" OpacityMask="White" Background="White"  Foreground="White" BorderBrush="White" Margin="341,210,0,0" VerticalAlignment="Top" Width="215"/>
+        <materialDesign:TimePicker x:Name="time_picker" HorizontalAlignment="Left" Height="29" OpacityMask="White" Background="White"  Foreground="White" BorderBrush="White" Margin="341,210,0,0" VerticalAlignment="Top" Width="215" Is24Hours="True"/>
         <CheckBox x:Name="checkbox1" Content="IsCompleted" HorizontalAlignment="Center" Height="17" VerticalAlignment="Top" Width="90" Margin="0,290,0,0" BorderBrush="White" Foreground="White" Background="White" Visibility="Hidden" />
 
     </Grid>
