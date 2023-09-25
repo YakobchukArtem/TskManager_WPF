@@ -1,0 +1,57 @@
+﻿<Window x:Class="TskManager_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TskManager_WPF"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="My tasks" Height="700" Width="1200">
+    <Grid Background="#373538">
+        <GroupBox MinWidth="350" HorizontalAlignment="Left">
+            <StackPanel VerticalAlignment="Center">
+                <Button Height="45" Margin="10" Click="newtaskbutton_Click">Add new task</Button>
+                <Button Height="45" Margin="10 20 10 10" Click="changetask_Click">Change task</Button>
+                <Button Height="45" Margin="10 20 10 20" Click="deletetask_Click">Delete task</Button>
+                <Button Height="45" Margin="10" Content="Statistics" Click="statistics_Click"/>
+            </StackPanel>
+        </GroupBox>
+
+
+        <ListView x:Name="uncompleted_tasks_listview"  MaxHeight="330" Margin="350,50,0,0" VerticalAlignment="Top"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Name="checkbox_uncompleted_tasks" IsChecked="{Binding Path=IsDone}" Content="{Binding Path=Name}" Tag="{Binding Path=ID}" Checked="CheckBox_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+        
+        <TextBlock Margin ="350,0,00,0" Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="26" Foreground="White">My Tasks</TextBlock>
+        <ListView x:Name="overdue_uncompleted_tasks_listview"  Margin="350,421,0,0" VerticalAlignment="Top" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox x:Name="checkbox1" IsChecked="{Binding Path=IsDone}" Content="{Binding Path=Name}" Tag="{Binding Path=ID}" Checked="CheckBox_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+        <TextBlock  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" Margin="350,400,0,0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="26" Foreground="White" Width="845"><Run Text="My Overdue Tasks"/></TextBlock>
+    </Grid>
+</Window>
