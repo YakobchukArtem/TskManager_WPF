@@ -6,9 +6,12 @@
         xmlns:local="clr-namespace:TskManager_WPF"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="My tasks" Height="700" Width="1200">
+        Title="My tasks" Height="750" Width="1200">
     <Grid Background="#373538">
-        <GroupBox MinWidth="350" HorizontalAlignment="Left">
+        <GroupBox Width="350" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Calendar/>
+        </GroupBox>
+        <GroupBox MinWidth="350" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,0,0">
             <StackPanel VerticalAlignment="Center">
                 <Button Height="45" Margin="10" Click="newtaskbutton_Click">Add new task</Button>
                 <Button Height="45" Margin="10 20 10 10" Click="changetask_Click">Change task</Button>
