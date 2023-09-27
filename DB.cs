@@ -172,6 +172,7 @@ namespace TskManager_WPF
         {
             try
             {
+                change_task(taskId, true);
                 connection.Open();
                 string transfer_Script = $"INSERT INTO tasks_completed (name, description, is_done, datetime) SELECT name, description, is_done, datetime FROM tasks WHERE id = @TaskID";
                 MySqlCommand cmd = new MySqlCommand(transfer_Script, connection);
