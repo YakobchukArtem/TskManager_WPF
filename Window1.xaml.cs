@@ -49,7 +49,7 @@ namespace TskManager_WPF
             if (MainWindow.is_new)
             {
                 dB_uncompleted.newtask(name, description, date.AddMinutes(time.Minute).AddHours(time.Hour), is_completed);
-                parentwindow.PopulateListView();
+                parentwindow.PopulateListView(dB_uncompleted);
                 Close();
             }
             else

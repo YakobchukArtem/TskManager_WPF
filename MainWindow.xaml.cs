@@ -25,6 +25,7 @@ namespace TskManager_WPF
         public DateTime dateTime { get; set; }
         public bool IsDone { get; set; }
         public bool Isoverdue { get; set; }
+        
     }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -39,7 +40,8 @@ namespace TskManager_WPF
             
             uncompleted_tasks_listview.SelectionChanged += ListView_SelectionChanged;
             completed_tasks_listview.SelectionChanged += ListView_SelectionChanged;
-            PopulateListView();
+            PopulateListView(dB_completed);
+            PopulateListView(dB_uncompleted);
 
         }
 
@@ -64,49 +66,28 @@ namespace TskManager_WPF
             }
 
         } 
-        public void PopulateListView()
+        public void PopulateListView<T>(T database) where T : DB
         {
             List<TaskItem> taskItems = new List<TaskItem>();
-            List<TaskItem> overduetaskItems = new List<TaskItem>();
-            int count_today_tasks=0;
-            foreach (DataRow row in dB_uncompleted.showtable().Rows)
+            if (database == dB_uncompleted)
             {
-                int id = Convert.ToInt32(row["ID"]);
-                string name = row["Name"].ToString();
-                string description = row["Description"].ToString();
-                DateTime datetime = Convert.ToDateTime(row["datetime"]);
-                bool isDone = Convert.ToBoolean(row["is_done"]);
-                string doneStatus = isDone ? "Done" : "Not Done";
-
-                //ListViewItem item = new ListViewItem();
-                //item.Content = $"{datetime}: {name}";
-                //item.Tag = id;
-                bool isoverdue;
-                
-                if (datetime > DateTime.Now)
-                {
-                    isoverdue = false;
-                }
-                else
-                {
-                    isoverdue = true;
-                }
-                if (datetime.Date == DateTime.Today) count_today_tasks++;
-                taskItems.Add(new TaskItem
-                {
-                    ID = id,
-                    Name = $"{datetime}: {name}",
-                    Description = description,
-                    dateTime = datetime,
-                    IsDone = isDone,
-                    Isoverdue = isoverdue
-                });
-
+                MessageBox.Show(database.ToString());
+                taskItems =dB_uncompleted.taskread();
+                uncompleted_tasks_listview.ItemsSource = taskItems;
+                amount_today_tasks.Text = "Today tasks = " + dB_uncompleted.count_today_tasks.ToString();
+                amount_tasks.Text = "Count tasks = " + taskItems.Count.ToString();
             }
-            amount_today_tasks.Text= "Today tasks = " + count_today_tasks.ToString();
-            amount_tasks.Text="Count tasks = "+taskItems.Count.ToString();
-            uncompleted_tasks_listview.ItemsSource = taskItems;
-            completed_tasks_listview.ItemsSource = overduetaskItems;
+            else
+            {
+                MessageBox.Show(database.ToString());
+                taskItems = dB_completed.taskread();
+                completed_tasks_listview.ItemsSource = taskItems;
+            }
+           
+           
+            
+            //
+            //completed_tasks_listview.ItemsSource = taskItems;
         }
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
@@ -116,7 +97,8 @@ namespace TskManager_WPF
                 bool isChecked = checkBox.IsChecked ?? false; 
                 int taskId = (int)checkBox.Tag;
                 dB_uncompleted.transfer_task(taskId);
-                PopulateListView();
+                PopulateListView(dB_completed);
+                PopulateListView(dB_uncompleted);
             }
         }
         
@@ -146,7 +128,8 @@ namespace TskManager_WPF
                 is_new = false;
                 Window1 window1 = new Window1(this, taskItem);
                 window1.ShowDialog();
-                PopulateListView();
+                PopulateListView(dB_completed);
+                PopulateListView(dB_uncompleted);
             }
 
         }
@@ -156,7 +139,8 @@ namespace TskManager_WPF
             if (id_task_check())
             {
                 dB_uncompleted.deletetask(current_task_id, "tasks");
-                PopulateListView();
+                PopulateListView(dB_completed);
+                PopulateListView(dB_uncompleted);
             }
         }
 

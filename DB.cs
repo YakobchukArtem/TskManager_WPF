@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 
 namespace TskManager_WPF
 {
-    internal class DB
+    public class DB
     {
         public DB(string tableName)
         {
@@ -21,6 +21,8 @@ namespace TskManager_WPF
         protected string table_name;
         protected MySqlDataAdapter mysqladapter;
         protected MySqlCommand cmd;
+        public int count_today_tasks { get; set; }
+
 
         public void newtask(string name, string description, DateTime datetime, bool is_completed)
         {
@@ -43,6 +45,8 @@ namespace TskManager_WPF
                 MessageBox.Show("Failed connection");
             }
         }
+
+        
 
         public void sort_db()
         {
@@ -71,7 +75,44 @@ namespace TskManager_WPF
             }
             return datatable;
         }
-        public void deletetask(int current_task_id, string table_Name)
+        public List<TaskItem> taskread()
+        {
+            List<TaskItem> taskItems = new List<TaskItem>();
+            foreach (DataRow row in showtable().Rows)
+            {
+                int id = Convert.ToInt32(row["ID"]);
+                string name = row["Name"].ToString();
+                string description = row["Description"].ToString();
+                DateTime datetime = Convert.ToDateTime(row["datetime"]);
+                bool isDone = Convert.ToBoolean(row["is_done"]);
+                string doneStatus = isDone ? "Done" : "Not Done";
+                bool isoverdue;
+
+                if (datetime > DateTime.Now)
+                {
+                    isoverdue = false;
+                }
+                else
+                {
+                    isoverdue = true;
+                }
+                if (datetime.Date == DateTime.Today) count_today_tasks++;
+                taskItems.Add(new TaskItem
+                {
+                    ID = id,
+                    Name = $"{datetime}: {name}",
+                    Description = description,
+                    dateTime = datetime,
+                    IsDone = isDone,
+                    Isoverdue = isoverdue
+                });
+
+            }
+            return taskItems;
+
+        }
+
+            public void deletetask(int current_task_id, string table_Name)
         {
             try
             {
@@ -146,16 +187,17 @@ namespace TskManager_WPF
         }
 
     }
-    internal class DB_uncompleted : DB
+    public class DB_uncompleted : DB
     {
         public DB_uncompleted() : base("tasks")
         {
         }
+        
 
 
     }
 
-    internal class DB_completed : DB
+    public class DB_completed : DB
     {
         public DB_completed() : base("tasks_completed")
         {
