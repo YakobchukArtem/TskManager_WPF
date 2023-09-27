@@ -17,16 +17,7 @@ using System.Windows.Shapes;
 
 namespace TskManager_WPF
 {
-    public class TaskItem
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime dateTime { get; set; }
-        public bool IsDone { get; set; }
-        public bool Isoverdue { get; set; }
-        
-    }
+    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -68,10 +59,12 @@ namespace TskManager_WPF
         } 
         public void PopulateListView<T>(T database) where T : DB
         {
+            
+            
             List<TaskItem> taskItems = new List<TaskItem>();
             if (database == dB_uncompleted)
             {
-                MessageBox.Show(database.ToString());
+                uncompleted_tasks_listview.ItemsSource = null;
                 taskItems =dB_uncompleted.taskread();
                 uncompleted_tasks_listview.ItemsSource = taskItems;
                 amount_today_tasks.Text = "Today tasks = " + dB_uncompleted.count_today_tasks.ToString();
@@ -79,15 +72,11 @@ namespace TskManager_WPF
             }
             else
             {
-                MessageBox.Show(database.ToString());
+                completed_tasks_listview.ItemsSource = null;
                 taskItems = dB_completed.taskread();
                 completed_tasks_listview.ItemsSource = taskItems;
             }
-           
-           
-            
-            //
-            //completed_tasks_listview.ItemsSource = taskItems;
+          
         }
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
@@ -107,7 +96,7 @@ namespace TskManager_WPF
             is_new = true;
             Window1 window1 = new Window1(this, taskItem);
             window1.ShowDialog();
-
+            PopulateListView(dB_uncompleted);
 
         }
 

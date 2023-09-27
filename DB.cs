@@ -29,7 +29,6 @@ namespace TskManager_WPF
             try
             {
                 connection.Open();
-
                 string script_newtask = $"INSERT INTO {table_name} (name, description, datetime) VALUES (@Name, @Description, @DateTime)";
 
                 cmd = new MySqlCommand(script_newtask, connection);
@@ -77,6 +76,7 @@ namespace TskManager_WPF
         }
         public List<TaskItem> taskread()
         {
+            count_today_tasks = 0;
             List<TaskItem> taskItems = new List<TaskItem>();
             foreach (DataRow row in showtable().Rows)
             {
