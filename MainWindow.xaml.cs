@@ -24,6 +24,7 @@ namespace TskManager_WPF
         public string Description { get; set; }
         public DateTime dateTime { get; set; }
         public bool IsDone { get; set; }
+        public bool Isoverdue { get; set; }
     }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -37,7 +38,7 @@ namespace TskManager_WPF
 
             
             uncompleted_tasks_listview.SelectionChanged += ListView_SelectionChanged;
-            overdue_uncompleted_tasks_listview.SelectionChanged += ListView_SelectionChanged;
+            completed_tasks_listview.SelectionChanged += ListView_SelectionChanged;
             PopulateListView();
 
         }
@@ -67,6 +68,7 @@ namespace TskManager_WPF
         {
             List<TaskItem> taskItems = new List<TaskItem>();
             List<TaskItem> overduetaskItems = new List<TaskItem>();
+            int count_today_tasks=0;
             foreach (DataRow row in dB_uncompleted.showtable().Rows)
             {
                 int id = Convert.ToInt32(row["ID"]);
@@ -76,36 +78,35 @@ namespace TskManager_WPF
                 bool isDone = Convert.ToBoolean(row["is_done"]);
                 string doneStatus = isDone ? "Done" : "Not Done";
 
-                ListViewItem item = new ListViewItem();
-                item.Content = $"{datetime}: {name}";
-                item.Tag = id; 
+                //ListViewItem item = new ListViewItem();
+                //item.Content = $"{datetime}: {name}";
+                //item.Tag = id;
+                bool isoverdue;
+                
                 if (datetime > DateTime.Now)
                 {
-                    taskItems.Add(new TaskItem
-                    {
-                        ID = id,
-                        Name = $"{datetime}: {name}",
-                        Description = description ,
-                        dateTime = datetime ,
-                        IsDone = isDone
-                    });
+                    isoverdue = false;
                 }
                 else
                 {
-                    overduetaskItems.Add(new TaskItem
-                    {
-                        ID = id,
-                        Name = $"{datetime}: {name}",
-                        Description = description,
-                        dateTime = datetime,
-                        IsDone = isDone
-                    });
-
+                    isoverdue = true;
                 }
+                if (datetime.Date == DateTime.Today) count_today_tasks++;
+                taskItems.Add(new TaskItem
+                {
+                    ID = id,
+                    Name = $"{datetime}: {name}",
+                    Description = description,
+                    dateTime = datetime,
+                    IsDone = isDone,
+                    Isoverdue = isoverdue
+                });
 
             }
+            amount_today_tasks.Text= "Today tasks = " + count_today_tasks.ToString();
+            amount_tasks.Text="Count tasks = "+taskItems.Count.ToString();
             uncompleted_tasks_listview.ItemsSource = taskItems;
-            overdue_uncompleted_tasks_listview.ItemsSource = overduetaskItems;
+            completed_tasks_listview.ItemsSource = overduetaskItems;
         }
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
@@ -161,8 +162,6 @@ namespace TskManager_WPF
 
         private void statistics_Click(object sender, RoutedEventArgs e)
         {
-            Window2 window2 = new Window2();
-            window2.ShowDialog();
         }
     }
 }

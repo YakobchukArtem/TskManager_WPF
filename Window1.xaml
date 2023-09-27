@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TskManager_WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="TskManager_WPF.Window1"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="580">
+        Title="Window1" Height="450" Width="580" >
     <Grid Background="#FF373538">
         <TextBlock x:Name="addnewtask_textblock" Margin="206,43,0,0" Foreground="White" TextAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Add New Task" VerticalAlignment="Top" Width="160" FontSize="24" FontFamily="Calibri"/>
         <TextBlock HorizontalAlignment="Left" Foreground="White" Margin="101,129,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="Name" VerticalAlignment="Top" Height="30" Width="90" FontSize="14" FontFamily="Calibri"/>
