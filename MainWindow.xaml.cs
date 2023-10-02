@@ -52,6 +52,16 @@ namespace TskManager_WPF
                 {
                     current_task_id = selectedItem.ID;
                     taskItem = selectedItem;
+                    string[] parts = selectedItem.Name.Split(':');
+                    if (parts.Length > 1)
+                    {
+                        // Видалити всі символи ":" і пробіли перед останнім ":"
+                        taskItem.Name = parts[parts.Length - 1].Trim(':').Trim();
+                    }
+                    else
+                    {
+                        taskItem.Name = selectedItem.Name; // Якщо ":" не знайдено, залишити без змін
+                    }
                 }
                 
             }
