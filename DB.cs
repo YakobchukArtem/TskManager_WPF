@@ -111,6 +111,17 @@ namespace TskManager_WPF
             return taskItems;
 
         }
+        public List<TaskItem> get_all_tasks()
+        {
+            List<TaskItem> taskItems = new List<TaskItem>();
+
+            List<TaskItem> uncompletedTasks = new DB_uncompleted().taskread();
+            List<TaskItem> completedTasks = new DB_completed().taskread();
+            taskItems.AddRange(uncompletedTasks);
+            taskItems.AddRange(completedTasks);
+
+            return taskItems;
+        }
 
             public void deletetask(int current_task_id, string table_Name)
         {

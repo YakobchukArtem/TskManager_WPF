@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -39,6 +40,7 @@ namespace TskManager_WPF
         private DB_completed dB_completed = new DB_completed();
         private DB_uncompleted dB_uncompleted = new DB_uncompleted();
         TaskItem taskItem=new TaskItem();
+        private Statistics statistics=new Statistics();
         static public int current_task_id;
         public static bool is_new = true;
         
@@ -47,7 +49,7 @@ namespace TskManager_WPF
             var listView = sender as ListView;
             if (listView != null && listView.SelectedIndex >= 0)
             {
-                var selectedItem = listView.SelectedItem as TaskItem; // Припустимо, що ваші елементи є типу TaskItem
+                var selectedItem = listView.SelectedItem as TaskItem; 
                 if (selectedItem != null)
                 {
                     current_task_id = selectedItem.ID;
@@ -55,12 +57,11 @@ namespace TskManager_WPF
                     string[] parts = selectedItem.Name.Split(':');
                     if (parts.Length > 1)
                     {
-                        // Видалити всі символи ":" і пробіли перед останнім ":"
                         taskItem.Name = parts[parts.Length - 1].Trim(':').Trim();
                     }
                     else
                     {
-                        taskItem.Name = selectedItem.Name; // Якщо ":" не знайдено, залишити без змін
+                        taskItem.Name = selectedItem.Name; 
                     }
                 }
                 
@@ -69,8 +70,7 @@ namespace TskManager_WPF
         } 
         public void PopulateListView<T>(T database) where T : DB
         {
-            
-            
+
             List<TaskItem> taskItems = new List<TaskItem>();
             if (database == dB_uncompleted)
             {
@@ -79,6 +79,7 @@ namespace TskManager_WPF
                 uncompleted_tasks_listview.ItemsSource = taskItems;
                 amount_today_tasks.Text = "Today tasks = " + dB_uncompleted.count_today_tasks.ToString();
                 amount_tasks.Text = "Count tasks = " + taskItems.Count.ToString();
+                
             }
             else
             {
@@ -86,7 +87,11 @@ namespace TskManager_WPF
                 taskItems = dB_completed.taskread();
                 completed_tasks_listview.ItemsSource = taskItems;
             }
-          
+            progressBar_day.Value = statistics.statistics_day();
+            progressBar_week.Value = statistics.statistics_week();
+            progressBar_month.Value = statistics.statistics_month();
+
+
         }
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
@@ -145,6 +150,8 @@ namespace TskManager_WPF
 
         private void statistics_Click(object sender, RoutedEventArgs e)
         {
+            string url = "https://www.linkedin.com/in/artem-yakobchuk-456b94271/";
+            Process.Start(url);
         }
     }
 }

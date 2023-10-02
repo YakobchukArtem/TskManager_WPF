@@ -16,7 +16,7 @@
                 <Button Height="45" Margin="10" Click="newtaskbutton_Click">Add new task</Button>
                 <Button Height="45" Margin="10 20 10 10" Click="changetask_Click">Change task</Button>
                 <Button Height="45" Margin="10 20 10 20" Click="deletetask_Click">Delete task</Button>
-                <Button Height="45" Margin="10" Content="Statistics" Click="statistics_Click"/>
+                <Button Height="45" Margin="10" Content="About us" Click="statistics_Click"/>
             </StackPanel>
         </GroupBox>
 
@@ -56,7 +56,7 @@
             </ListView.View>
 
         </ListView>
-        <ProgressBar Name="progressBar_day"   Maximum="100" Width="300" Height="30" Margin="402,455,498,249" />
+        <ProgressBar Name="progressBar_day"  Value="50" Maximum="100" Width="300" Height="30" Margin="402,455,498,249" />
         <ProgressBar Name="progressBar_week"  Maximum="100" Width="300" Height="30" Margin="402,525,498,179" />
         <ProgressBar Name="progressBar_month" Maximum="100" Width="300" Height="30" Margin="402,595,498,109" />
         <TextBlock  Height="62" Padding="0,15,0,0" VerticalAlignment="Top" Margin="350,400,0,0"  TextAlignment="Center" FontSize="20" Foreground="White" ><Run Text="My Completed Tasks"/></TextBlock>
