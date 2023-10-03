@@ -48,15 +48,29 @@ namespace TskManager_WPF
         }
         public int statistics_day()
         {
+            if (amount_tasks_day == 0) return 100;
             return (100*amount_completed_tasks_day )/ amount_tasks_day;
         }
         public int statistics_week()
         {
+            if (amount_tasks_week == 0) return 100;
             return (amount_completed_tasks_week * 100 ) / amount_tasks_week;
         }
         public int statistics_month()
         {
+            if (amount_tasks_month == 0) return 100;
             return (amount_completed_tasks_month * 100 ) / amount_tasks_month;
+        }
+        public string correlation_month() {
+            return $"{amount_completed_tasks_month}/{amount_tasks_month}";
+        }
+        public string correlation_week()
+        {
+            return $"{amount_completed_tasks_week}/{amount_tasks_week}";
+        }
+        public string correlation_day()
+        {
+            return $"{amount_completed_tasks_day}/{amount_tasks_day}";
         }
 
     }

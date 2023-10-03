@@ -56,13 +56,13 @@
             </ListView.View>
 
         </ListView>
-        <ProgressBar Name="progressBar_day"  Value="50" Maximum="100" Width="300" Height="30" Margin="402,455,498,249" />
+        <ProgressBar Name="progressBar_day"  Maximum="100" Width="300" Height="30" Margin="402,455,498,249" />
         <ProgressBar Name="progressBar_week"  Maximum="100" Width="300" Height="30" Margin="402,525,498,179" />
         <ProgressBar Name="progressBar_month" Maximum="100" Width="300" Height="30" Margin="402,595,498,109" />
         <TextBlock  Height="62" Padding="0,15,0,0" VerticalAlignment="Top" Margin="350,400,0,0"  TextAlignment="Center" FontSize="20" Foreground="White" ><Run Text="My Completed Tasks"/></TextBlock>
-        <TextBlock Margin ="350,475,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White">Today</TextBlock>
-        <TextBlock Margin ="350,545,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White">Week</TextBlock>
-        <TextBlock Margin ="350,615,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White">Month</TextBlock>
+        <TextBlock Name="textblock_day" Margin ="350,475,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+        <TextBlock Name="textblock_week" Margin ="350,545,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+        <TextBlock Name="textblock_month" Margin ="350,615,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
         <Button Margin="550,650, 750, 0" Height="50">Clean completed tasks</Button>
     </Grid>
 </Window>

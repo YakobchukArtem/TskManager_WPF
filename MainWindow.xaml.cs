@@ -40,7 +40,6 @@ namespace TskManager_WPF
         private DB_completed dB_completed = new DB_completed();
         private DB_uncompleted dB_uncompleted = new DB_uncompleted();
         TaskItem taskItem=new TaskItem();
-        private Statistics statistics=new Statistics();
         static public int current_task_id;
         public static bool is_new = true;
         
@@ -70,7 +69,7 @@ namespace TskManager_WPF
         } 
         public void PopulateListView<T>(T database) where T : DB
         {
-
+            Statistics statistics = new Statistics();
             List<TaskItem> taskItems = new List<TaskItem>();
             if (database == dB_uncompleted)
             {
@@ -90,7 +89,9 @@ namespace TskManager_WPF
             progressBar_day.Value = statistics.statistics_day();
             progressBar_week.Value = statistics.statistics_week();
             progressBar_month.Value = statistics.statistics_month();
-
+            textblock_day.Text = "Today  " + statistics.correlation_day();
+            textblock_week.Text = "Week  " + statistics.correlation_week();
+            textblock_month.Text = "Month  " + statistics.correlation_month();
 
         }
         private void CheckBox_Click(object sender, RoutedEventArgs e)
