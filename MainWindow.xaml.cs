@@ -154,5 +154,11 @@ namespace TskManager_WPF
             string url = "https://www.linkedin.com/in/artem-yakobchuk-456b94271/";
             Process.Start(url);
         }
+        private void Clean_completed_task(object sender, RoutedEventArgs e)
+        {
+            dB_completed.delete_all_task();
+            PopulateListView(dB_completed);
+        }
+
     }
 }

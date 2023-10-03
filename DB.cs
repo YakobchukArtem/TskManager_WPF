@@ -214,6 +214,21 @@ namespace TskManager_WPF
         public DB_completed() : base("tasks_completed")
         {
         }
+        public void delete_all_task()
+        {
+            try
+            {
+                connection.Open();
+                string transfer_Script = $"DELETE FROM tasks_completed;";
+                MySqlCommand cmd = new MySqlCommand(transfer_Script, connection);
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Failed");
+            }
+        }
 
     }
 }

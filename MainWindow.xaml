@@ -63,6 +63,6 @@
         <TextBlock Name="textblock_day" Margin ="350,475,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
         <TextBlock Name="textblock_week" Margin ="350,545,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
         <TextBlock Name="textblock_month" Margin ="350,615,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
-        <Button Margin="550,650, 750, 0" Height="50">Clean completed tasks</Button>
+        <Button Margin="500,700,700,0" Height="50" VerticalAlignment="Top" Click="Clean_completed_task">Clean completed tasks</Button>
     </Grid>
 </Window>
