@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -17,15 +18,7 @@ using System.Windows.Shapes;
 
 namespace TskManager_WPF
 {
-    public class TaskItem
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime dateTime { get; set; }
-        public bool IsDone { get; set; }
-        public bool Isoverdue { get; set; }
-    }
+    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -39,7 +32,8 @@ namespace TskManager_WPF
             
             uncompleted_tasks_listview.SelectionChanged += ListView_SelectionChanged;
             completed_tasks_listview.SelectionChanged += ListView_SelectionChanged;
-            PopulateListView();
+            PopulateListView(dB_completed);
+            PopulateListView(dB_uncompleted);
 
         }
 
@@ -54,59 +48,51 @@ namespace TskManager_WPF
             var listView = sender as ListView;
             if (listView != null && listView.SelectedIndex >= 0)
             {
-                var selectedItem = listView.SelectedItem as TaskItem; // Припустимо, що ваші елементи є типу TaskItem
+                var selectedItem = listView.SelectedItem as TaskItem; 
                 if (selectedItem != null)
                 {
                     current_task_id = selectedItem.ID;
                     taskItem = selectedItem;
+                    string[] parts = selectedItem.Name.Split(':');
+                    if (parts.Length > 1)
+                    {
+                        taskItem.Name = parts[parts.Length - 1].Trim(':').Trim();
+                    }
+                    else
+                    {
+                        taskItem.Name = selectedItem.Name; 
+                    }
                 }
                 
             }
 
         } 
-        public void PopulateListView()
+        public void PopulateListView<T>(T database) where T : DB
         {
+            Statistics statistics = new Statistics();
             List<TaskItem> taskItems = new List<TaskItem>();
-            List<TaskItem> overduetaskItems = new List<TaskItem>();
-            int count_today_tasks=0;
-            foreach (DataRow row in dB_uncompleted.showtable().Rows)
+            if (database == dB_uncompleted)
             {
-                int id = Convert.ToInt32(row["ID"]);
-                string name = row["Name"].ToString();
-                string description = row["Description"].ToString();
-                DateTime datetime = Convert.ToDateTime(row["datetime"]);
-                bool isDone = Convert.ToBoolean(row["is_done"]);
-                string doneStatus = isDone ? "Done" : "Not Done";
-
-                //ListViewItem item = new ListViewItem();
-                //item.Content = $"{datetime}: {name}";
-                //item.Tag = id;
-                bool isoverdue;
+                uncompleted_tasks_listview.ItemsSource = null;
+                taskItems =dB_uncompleted.taskread();
+                uncompleted_tasks_listview.ItemsSource = taskItems;
+                amount_today_tasks.Text = "Today tasks = " + dB_uncompleted.count_today_tasks.ToString();
+                amount_tasks.Text = "Count tasks = " + taskItems.Count.ToString();
                 
-                if (datetime > DateTime.Now)
-                {
-                    isoverdue = false;
-                }
-                else
-                {
-                    isoverdue = true;
-                }
-                if (datetime.Date == DateTime.Today) count_today_tasks++;
-                taskItems.Add(new TaskItem
-                {
-                    ID = id,
-                    Name = $"{datetime}: {name}",
-                    Description = description,
-                    dateTime = datetime,
-                    IsDone = isDone,
-                    Isoverdue = isoverdue
-                });
-
             }
-            amount_today_tasks.Text= "Today tasks = " + count_today_tasks.ToString();
-            amount_tasks.Text="Count tasks = "+taskItems.Count.ToString();
-            uncompleted_tasks_listview.ItemsSource = taskItems;
-            completed_tasks_listview.ItemsSource = overduetaskItems;
+            else
+            {
+                completed_tasks_listview.ItemsSource = null;
+                taskItems = dB_completed.taskread();
+                completed_tasks_listview.ItemsSource = taskItems;
+            }
+            progressBar_day.Value = statistics.statistics_day();
+            progressBar_week.Value = statistics.statistics_week();
+            progressBar_month.Value = statistics.statistics_month();
+            textblock_day.Text = "Today  " + statistics.correlation_day();
+            textblock_week.Text = "Week  " + statistics.correlation_week();
+            textblock_month.Text = "Month  " + statistics.correlation_month();
+
         }
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
@@ -116,7 +102,8 @@ namespace TskManager_WPF
                 bool isChecked = checkBox.IsChecked ?? false; 
                 int taskId = (int)checkBox.Tag;
                 dB_uncompleted.transfer_task(taskId);
-                PopulateListView();
+                PopulateListView(dB_completed);
+                PopulateListView(dB_uncompleted);
             }
         }
         
@@ -125,7 +112,7 @@ namespace TskManager_WPF
             is_new = true;
             Window1 window1 = new Window1(this, taskItem);
             window1.ShowDialog();
-
+            PopulateListView(dB_uncompleted);
 
         }
 
@@ -146,7 +133,8 @@ namespace TskManager_WPF
                 is_new = false;
                 Window1 window1 = new Window1(this, taskItem);
                 window1.ShowDialog();
-                PopulateListView();
+                PopulateListView(dB_completed);
+                PopulateListView(dB_uncompleted);
             }
 
         }
@@ -156,12 +144,21 @@ namespace TskManager_WPF
             if (id_task_check())
             {
                 dB_uncompleted.deletetask(current_task_id, "tasks");
-                PopulateListView();
+                PopulateListView(dB_completed);
+                PopulateListView(dB_uncompleted);
             }
         }
 
         private void statistics_Click(object sender, RoutedEventArgs e)
         {
+            string url = "https://www.linkedin.com/in/artem-yakobchuk-456b94271/";
+            Process.Start(url);
         }
+        private void Clean_completed_task(object sender, RoutedEventArgs e)
+        {
+            dB_completed.delete_all_task();
+            PopulateListView(dB_completed);
+        }
+
     }
 }

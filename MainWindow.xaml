@@ -16,12 +16,12 @@
                 <Button Height="45" Margin="10" Click="newtaskbutton_Click">Add new task</Button>
                 <Button Height="45" Margin="10 20 10 10" Click="changetask_Click">Change task</Button>
                 <Button Height="45" Margin="10 20 10 20" Click="deletetask_Click">Delete task</Button>
-                <Button Height="45" Margin="10" Content="Statistics" Click="statistics_Click"/>
+                <Button Height="45" Margin="10" Content="About us" Click="statistics_Click"/>
             </StackPanel>
         </GroupBox>
 
 
-        <ListView x:Name="uncompleted_tasks_listview"  MaxHeight="330" Margin="350,100,0,0" VerticalAlignment="Top"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged" Foreground="#DD000000">
+        <ListView x:Name="uncompleted_tasks_listview"  MaxHeight="315" Margin="350,100,0,0" VerticalAlignment="Top"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged" Foreground="#DD000000">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
@@ -40,7 +40,7 @@
         <TextBlock Margin ="350,0,00,0" Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="26" Foreground="White">My Tasks</TextBlock>
         <TextBlock Name ="amount_today_tasks" Margin ="350,80,30,0" Height="50" Padding="0,15,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center" FontSize="14" Foreground="White" Width="153"></TextBlock>
         <TextBlock Name ="amount_tasks" Margin ="350,80,30,0" Height="50" Padding="0,15,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" TextAlignment="Center" FontSize="14" Foreground="White" Width="153"></TextBlock>
-        <ListView x:Name="completed_tasks_listview"  Margin="750,421,0,0" VerticalAlignment="Top" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged">
+        <ListView x:Name="completed_tasks_listview"  Margin="950,421,0,0" VerticalAlignment="Top" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
@@ -56,6 +56,13 @@
             </ListView.View>
 
         </ListView>
-        <TextBlock  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" Margin="350,420,0,0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="26" Foreground="White" Width="845"><Run Text="My Overdue Tasks"/></TextBlock>
+        <ProgressBar Name="progressBar_day"  Maximum="100" Width="300" Height="30" Margin="402,455,498,249" />
+        <ProgressBar Name="progressBar_week"  Maximum="100" Width="300" Height="30" Margin="402,525,498,179" />
+        <ProgressBar Name="progressBar_month" Maximum="100" Width="300" Height="30" Margin="402,595,498,109" />
+        <TextBlock  Height="62" Padding="0,15,0,0" VerticalAlignment="Top" Margin="350,400,0,0"  TextAlignment="Center" FontSize="20" Foreground="White" ><Run Text="My Completed Tasks"/></TextBlock>
+        <TextBlock Name="textblock_day" Margin ="350,475,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+        <TextBlock Name="textblock_week" Margin ="350,545,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+        <TextBlock Name="textblock_month" Margin ="350,615,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
+        <Button Margin="500,700,700,0" Height="50" VerticalAlignment="Top" Click="Clean_completed_task">Clean completed tasks</Button>
     </Grid>
 </Window>
