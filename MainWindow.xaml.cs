@@ -18,7 +18,8 @@ using System.Windows.Shapes;
 
 namespace TskManager_WPF
 {
-    
+   
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -39,12 +40,11 @@ namespace TskManager_WPF
 
         private DB_completed dB_completed = new DB_completed();
         private DB_uncompleted dB_uncompleted = new DB_uncompleted();
-        TaskItem taskItem=new TaskItem();
+        private TaskItem taskItem=new TaskItem();
         static public int current_task_id;
-        private string content;
         public static bool is_new = true;
-        private int amount_checked = 0;
-        private CheckBox checkBox_temp;
+        private List<CheckBox> selectedCheckboxes = new List<CheckBox>();
+
         CheckBox checkBox;
 
 
@@ -103,12 +103,12 @@ namespace TskManager_WPF
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             checkBox = sender as CheckBox;
+            
             if (checkBox != null)
             {
                 if (checkBox.IsChecked == true)
                 {
-                    amount_checked++;
-                    content = checkBox.Content.ToString();
+                    selectedCheckboxes.Add(checkBox);
                     TextBlock textBlock = new TextBlock();
                     textBlock.Text = checkBox.Content.ToString();
                     textBlock.TextDecorations = TextDecorations.Strikethrough;
@@ -116,34 +116,55 @@ namespace TskManager_WPF
                 }
                 else
                 {
-                    amount_checked--;
-                    checkBox.Content = content;
+                   selectedCheckboxes.Remove(checkBox);
+                   if (checkBox.Content is TextBlock textBlock)
+                   {
+                   checkBox.Content = textBlock.Text;
+                   }
                 }
-                if (checkBox.IsChecked == true)
+
+                if (selectedCheckboxes.Count > 0) {
+                    Ok_button.Visibility = Visibility.Visible;
+                }
+                else
                 {
-                    if (amount_checked == 2)
-                    {
-                        //transfer((int)checkBox_temp.Tag);
-                        //checkBox_temp = checkBox;
-                        //PopulateListView(dB_completed);
-                        //PopulateListView(dB_uncompleted);
-                        amount_checked = 0;
-                    }
+                    Ok_button.Visibility = Visibility.Collapsed;
                 }
-                checkBox_temp = checkBox;
+               
+                
             }
                
         }
+        private void Ok_button_click(object sender, RoutedEventArgs e)
+        {
+
+            foreach (CheckBox checkBox in selectedCheckboxes)
+            {
+                transfer((int)checkBox.Tag);
+            }
+            PopulateListView(dB_completed);
+            PopulateListView(dB_uncompleted);
+            Ok_button.Visibility=Visibility.Collapsed;
+            selectedCheckboxes.Clear();
+        }
+
+        //if (checkBox.IsChecked == true)
+        //{
+        //    //if (amount_checked == 2)
+        //    //{
+        //    //    //transfer((int)checkBox_temp.Tag);
+        //    //    //checkBox_temp = checkBox;
+        //    //    //PopulateListView(dB_completed);
+        //    //    //PopulateListView(dB_uncompleted);
+        //    //    amount_checked = 0;
+        //    //}
+        //}
         public void transfer(int taskId)
         {
             dB_uncompleted.transfer_task(taskId);
-            amount_checked = 0;
         }
 
-        private void OK_button(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
         private void newtaskbutton_Click(object sender, RoutedEventArgs e)
         {
             is_new = true;
