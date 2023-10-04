@@ -22,6 +22,7 @@ namespace TskManager_WPF
         protected MySqlDataAdapter mysqladapter;
         protected MySqlCommand cmd;
         public int count_today_tasks { get; set; }
+  
 
 
         public void newtask(string name, string description, DateTime datetime, bool is_completed)

@@ -41,8 +41,13 @@ namespace TskManager_WPF
         private DB_uncompleted dB_uncompleted = new DB_uncompleted();
         TaskItem taskItem=new TaskItem();
         static public int current_task_id;
+        private string content;
         public static bool is_new = true;
-        
+        private int amount_checked = 0;
+        private CheckBox checkBox_temp;
+        CheckBox checkBox;
+
+
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var listView = sender as ListView;
@@ -78,7 +83,7 @@ namespace TskManager_WPF
                 uncompleted_tasks_listview.ItemsSource = taskItems;
                 amount_today_tasks.Text = "Today tasks = " + dB_uncompleted.count_today_tasks.ToString();
                 amount_tasks.Text = "Count tasks = " + taskItems.Count.ToString();
-                
+               
             }
             else
             {
@@ -92,21 +97,53 @@ namespace TskManager_WPF
             textblock_day.Text = "Today  " + statistics.correlation_day();
             textblock_week.Text = "Week  " + statistics.correlation_week();
             textblock_month.Text = "Month  " + statistics.correlation_month();
-
+           
         }
+
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            CheckBox checkBox = sender as CheckBox;
+            checkBox = sender as CheckBox;
             if (checkBox != null)
             {
-                bool isChecked = checkBox.IsChecked ?? false; 
-                int taskId = (int)checkBox.Tag;
-                dB_uncompleted.transfer_task(taskId);
-                PopulateListView(dB_completed);
-                PopulateListView(dB_uncompleted);
+                if (checkBox.IsChecked == true)
+                {
+                    amount_checked++;
+                    content = checkBox.Content.ToString();
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = checkBox.Content.ToString();
+                    textBlock.TextDecorations = TextDecorations.Strikethrough;
+                    checkBox.Content = textBlock;
+                }
+                else
+                {
+                    amount_checked--;
+                    checkBox.Content = content;
+                }
+                if (checkBox.IsChecked == true)
+                {
+                    if (amount_checked == 2)
+                    {
+                        //transfer((int)checkBox_temp.Tag);
+                        //checkBox_temp = checkBox;
+                        //PopulateListView(dB_completed);
+                        //PopulateListView(dB_uncompleted);
+                        amount_checked = 0;
+                    }
+                }
+                checkBox_temp = checkBox;
             }
+               
         }
-        
+        public void transfer(int taskId)
+        {
+            dB_uncompleted.transfer_task(taskId);
+            amount_checked = 0;
+        }
+
+        private void OK_button(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void newtaskbutton_Click(object sender, RoutedEventArgs e)
         {
             is_new = true;
