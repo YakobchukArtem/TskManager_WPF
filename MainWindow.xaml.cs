@@ -148,17 +148,7 @@ namespace TskManager_WPF
             selectedCheckboxes.Clear();
         }
 
-        //if (checkBox.IsChecked == true)
-        //{
-        //    //if (amount_checked == 2)
-        //    //{
-        //    //    //transfer((int)checkBox_temp.Tag);
-        //    //    //checkBox_temp = checkBox;
-        //    //    //PopulateListView(dB_completed);
-        //    //    //PopulateListView(dB_uncompleted);
-        //    //    amount_checked = 0;
-        //    //}
-        //}
+     
         public void transfer(int taskId)
         {
             dB_uncompleted.transfer_task(taskId);
@@ -218,5 +208,9 @@ namespace TskManager_WPF
             PopulateListView(dB_completed);
         }
 
+        private void Close_window_click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
