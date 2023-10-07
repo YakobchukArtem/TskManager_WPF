@@ -45,12 +45,13 @@ namespace TskManager_WPF
         public static bool is_new = true;
         private List<CheckBox> selectedCheckboxes = new List<CheckBox>();  
         CheckBox checkBox;
+        ListView listView;
 
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            var listView = sender as ListView;
+            listView = sender as ListView;
             if (listView != null && listView.SelectedIndex >= 0)
             {
                 var selectedItem = listView.SelectedItem as TaskItem; 
@@ -196,16 +197,17 @@ namespace TskManager_WPF
         {
             if (id_task_check())
             {
-                var listView = sender as ListView;
-                if (listView == uncompleted_tasks_listview)
+
+                if (listView==uncompleted_tasks_listview)
                 {
                     dB_uncompleted.deletetask(current_task_id, "tasks");
                     PopulateListView(dB_uncompleted);
                 }
-                else {
-                    dB_uncompleted.deletetask(current_task_id, "tasks_completed");
+                else
+                {
+                    dB_completed.deletetask(current_task_id, "tasks_completed");
                     PopulateListView(dB_completed);
-                    }
+                }
             }
         }
 
@@ -218,11 +220,6 @@ namespace TskManager_WPF
         {
             dB_completed.delete_all_task();
             PopulateListView(dB_completed);
-        }
-
-        private void Close_window_click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         private void doubleclick(object sender, MouseButtonEventArgs e)
