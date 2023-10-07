@@ -182,16 +182,27 @@ namespace TskManager_WPF
         }
         public void transfer_task(int taskId)
         {
+            string table_name_output;
+            if (table_name == "tasks")
+            {
+                table_name_output = "tasks_completed";
+                change_task(taskId, true);
+            }
+            else
+            {
+                table_name_output = "tasks";
+                change_task(taskId, false);
+            }
+
             try
             {
-                change_task(taskId, true);
                 connection.Open();
-                string transfer_Script = $"INSERT INTO tasks_completed (name, description, is_done, datetime) SELECT name, description, is_done, datetime FROM tasks WHERE id = @TaskID";
+                string transfer_Script = $"INSERT INTO {table_name_output} (name, description, is_done, datetime) SELECT name, description, is_done, datetime FROM {table_name} WHERE id = @TaskID";
                 MySqlCommand cmd = new MySqlCommand(transfer_Script, connection);
                 cmd.Parameters.AddWithValue("@TaskID", taskId);
                 cmd.ExecuteNonQuery();
                 connection.Close();
-                deletetask(taskId, "tasks");
+                deletetask(taskId, table_name) ;
             }
             catch
             {

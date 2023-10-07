@@ -43,13 +43,13 @@ namespace TskManager_WPF
         private TaskItem taskItem=new TaskItem();
         static public int current_task_id;
         public static bool is_new = true;
-        private List<CheckBox> selectedCheckboxes = new List<CheckBox>();
-
+        private List<CheckBox> selectedCheckboxes = new List<CheckBox>();  
         CheckBox checkBox;
 
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             var listView = sender as ListView;
             if (listView != null && listView.SelectedIndex >= 0)
             {
@@ -135,23 +135,28 @@ namespace TskManager_WPF
             }
                
         }
+        private void CheckBox_unchecked(object sender, RoutedEventArgs e)
+        {
+            checkBox = sender as CheckBox;
+            if (checkBox != null)
+            {
+                dB_completed.transfer_task((int)checkBox.Tag);
+                PopulateListView(dB_completed);
+                PopulateListView(dB_uncompleted);
+            }
+        }
+
         private void Ok_button_click(object sender, RoutedEventArgs e)
         {
 
             foreach (CheckBox checkBox in selectedCheckboxes)
             {
-                transfer((int)checkBox.Tag);
+                dB_uncompleted.transfer_task((int)checkBox.Tag);
             }
             PopulateListView(dB_completed);
             PopulateListView(dB_uncompleted);
             Ok_button.Visibility=Visibility.Collapsed;
             selectedCheckboxes.Clear();
-        }
-
-     
-        public void transfer(int taskId)
-        {
-            dB_uncompleted.transfer_task(taskId);
         }
 
         
@@ -191,9 +196,16 @@ namespace TskManager_WPF
         {
             if (id_task_check())
             {
-                dB_uncompleted.deletetask(current_task_id, "tasks");
-                PopulateListView(dB_completed);
-                PopulateListView(dB_uncompleted);
+                var listView = sender as ListView;
+                if (listView == uncompleted_tasks_listview)
+                {
+                    dB_uncompleted.deletetask(current_task_id, "tasks");
+                    PopulateListView(dB_uncompleted);
+                }
+                else {
+                    dB_uncompleted.deletetask(current_task_id, "tasks_completed");
+                    PopulateListView(dB_completed);
+                    }
             }
         }
 
@@ -211,6 +223,11 @@ namespace TskManager_WPF
         private void Close_window_click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void doubleclick(object sender, MouseButtonEventArgs e)
+        {
+            changetask_Click(sender, e);
         }
     }
 }

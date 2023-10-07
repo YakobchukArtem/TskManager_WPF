@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TskManager_WPF"
         mc:Ignorable="d"
+        ResizeMode="CanMinimize"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="My tasks" Height="750" Width="1200" WindowState="Maximized" Icon="/icon.ico">
     <Grid Background="#373538">
         <GroupBox Width="350" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Calendar/>
         </GroupBox>
-        <GroupBox MinWidth="350" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="405">
+        <GroupBox MinWidth="350" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="450">
             <StackPanel VerticalAlignment="Center">
                 <Button Height="45" Margin="10" Click="newtaskbutton_Click">Add new task</Button>
                 <Button Height="45" Margin="10 20 10 10" Click="changetask_Click">Change task</Button>
@@ -21,14 +22,15 @@
         </GroupBox>
 
 
-        <ListView x:Name="uncompleted_tasks_listview"  MaxHeight="315" Margin="350,100,0,0" VerticalAlignment="Top"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged" Foreground="#DD000000">
+        <ListView x:Name="uncompleted_tasks_listview"  MaxHeight="315" Margin="350,100,0,0" VerticalAlignment="Top"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="doubleclick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <CheckBox Name="checkbox_uncompleted_tasks" IsChecked="{Binding Path=IsDone}" Content="{Binding Path=Name}" Tag="{Binding Path=ID}" Click="CheckBox_Click"/>
+                                    <CheckBox Name="checkbox_uncompleted_tasks" IsChecked="{Binding Path=IsDone}" Content="{Binding Path=Name}" Tag="{Binding Path=ID}" Click="CheckBox_Click"  Foreground="#87878a"/>
+                                    
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -43,11 +45,12 @@
         <ListView x:Name="completed_tasks_listview"  Margin="950,421,0,0" VerticalAlignment="Top" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ListView_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn>
+                    <GridViewColumn Width="400">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <CheckBox x:Name="checkbox1" IsChecked="{Binding Path=IsDone}" Content="{Binding Path=Name}" Tag="{Binding Path=ID}" Checked="CheckBox_Click" IsEnabled="False"/>
+                                    <CheckBox Name="checkbox_completed_tasks" IsChecked="{Binding Path=IsDone}" Content="{Binding Path=Name}" Tag="{Binding Path=ID}" Unchecked="CheckBox_unchecked" Foreground="#87878a"/>
+                                
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -56,14 +59,14 @@
             </ListView.View>
 
         </ListView>
-        <ProgressBar Name="progressBar_day"  Maximum="100" Width="300" Height="30" Margin="402,455,498,249" />
-        <ProgressBar Name="progressBar_week"  Maximum="100" Width="300" Height="30" Margin="402,525,498,179" />
-        <ProgressBar Name="progressBar_month" Maximum="100" Width="300" Height="30" Margin="402,595,498,109" />
+        <ProgressBar Name="progressBar_day"  Maximum="100" Width="300" Height="30" Margin="402,425,498,249" />
+        <ProgressBar Name="progressBar_week"  Maximum="100" Width="300" Height="30" Margin="402,495,498,179" />
+        <ProgressBar Name="progressBar_month" Maximum="100" Width="300" Height="30" Margin="402,565,498,109" />
         <TextBlock  Height="62" Padding="0,15,0,0" VerticalAlignment="Top" Margin="430,400,80,0"  TextAlignment="Center" FontSize="20" Foreground="White" ><Run Text="My Completed Tasks"/></TextBlock>
         <TextBlock Name="textblock_day" Margin ="350,475,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
         <TextBlock Name="textblock_week" Margin ="350,545,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
         <TextBlock Name="textblock_month" Margin ="350,615,950,0"  Height="50" Padding="0,15,0,0" VerticalAlignment="Top" TextAlignment="Center" FontSize="20" Foreground="White"></TextBlock>
         <Button Margin="500,700,700,0" Height="50" VerticalAlignment="Top" Click="Clean_completed_task">Clean completed tasks</Button>
-        <Button Name="Ok_button" Margin="400,430,1000,0" Height="30" VerticalAlignment="Top" Click="Ok_button_click" Visibility="Collapsed">Ok</Button>
+        <Button Name="Ok_button" Margin="400,420,1000,0" Height="30" VerticalAlignment="Top" Click="Ok_button_click" Visibility="Collapsed">Ok</Button>
     </Grid>
 </Window>

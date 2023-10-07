@@ -13,11 +13,11 @@
         <TextBlock HorizontalAlignment="Left" Foreground="White" Margin="101,169,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="Description" VerticalAlignment="Top" Height="30" Width="90" FontSize="14" FontFamily="Calibri"/>
         <TextBlock HorizontalAlignment="Left" Foreground="White" Margin="101,209,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="Time" VerticalAlignment="Top" Height="30" Width="90" FontSize="14" FontFamily="Calibri"/>
         <TextBlock HorizontalAlignment="Left" Foreground="White" Margin="101,249,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="Date" VerticalAlignment="Top" Height="30" Width="90" FontSize="14" FontFamily="Calibri"/>
-        <Button Content="Confirm" Width="270" Height="37" VerticalAlignment="Bottom" Margin="152,0,158,59" HorizontalContentAlignment="Center" Click="Button_Click"/>
+        <Button Content="Confirm" Width="270" Height="37" VerticalAlignment="Bottom" Margin="152,0,158,69" HorizontalContentAlignment="Center" Click="Button_Click"/>
         <TextBox x:Name="name_textbox" HorizontalAlignment="Left" Background="White" Height="30" Margin="227,128,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="215" RenderTransformOrigin="-1.21,1.637"/>
         <TextBox x:Name="description_textbox" HorizontalAlignment="Left" Background="White" Height="30" Margin="227,163,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="215" RenderTransformOrigin="-1.21,1.637"/>
         <DatePicker x:Name="date_picker" Background="White" HorizontalAlignment="Left" Height="30" Margin="227,243,0,0" VerticalAlignment="Top" Width="215"/>
         <materialDesign:TimePicker x:Name="time_picker" HorizontalAlignment="Left" Height="29" OpacityMask="White" Background="White"  Foreground="White" BorderBrush="White" Margin="227,5,0,0" Width="215" Is24Hours="True"/>
-        <CheckBox x:Name="checkbox1" Content="IsCompleted" HorizontalAlignment="Center" Height="17" VerticalAlignment="Top" Width="90" Margin="0,290,0,0" BorderBrush="White" Foreground="White" Background="White" Visibility="Hidden" />
+       
     </Grid>
 </Window>

@@ -26,11 +26,12 @@ namespace TskManager_WPF
             InitializeComponent();
             this.parentwindow = parentwindow;
             if (!MainWindow.is_new) 
-            { checkbox1.Visibility = Visibility.Visible;
+            {
               addnewtask_textblock.Text = "Change Task";
                 name = taskItem.Name;
                 description=taskItem.Description;
                 date = taskItem.dateTime;
+                is_completed = taskItem.IsDone;
                 time = taskItem.dateTime;
             }
 
@@ -40,11 +41,13 @@ namespace TskManager_WPF
         public string name { get { return name_textbox.Text; } set { name_textbox.Text = value; } }
         public string description { get { return description_textbox.Text; } set { description_textbox.Text = value; }}
         public DateTime date { get { return date_picker.SelectedDate ?? DateTime.Now; } set { date_picker.SelectedDate = value; }}
-        public bool is_completed{get { return checkbox1.IsChecked == true; } set { checkbox1.IsChecked = value; }}
+        public bool is_completed{ get; set; }
         public DateTime time{get { return time_picker.SelectedTime ?? DateTime.Now; }set { time_picker.SelectedTime = value; }}
+        
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             DB_uncompleted dB_uncompleted = new DB_uncompleted();
             if (MainWindow.is_new)
             {
@@ -53,7 +56,16 @@ namespace TskManager_WPF
             }
             else
             {
-                dB_uncompleted.change_task(MainWindow.current_task_id, name, description, date.AddMinutes(time.Minute).AddHours(time.Hour), is_completed);
+                if (is_completed == true)
+                {
+                    DB_completed dB_completed = new DB_completed();
+                    dB_completed.change_task(MainWindow.current_task_id, name, description, date.AddMinutes(time.Minute).AddHours(time.Hour), is_completed);
+                }
+                else
+                {
+                    dB_uncompleted.change_task(MainWindow.current_task_id, name, description, date.AddMinutes(time.Minute).AddHours(time.Hour), is_completed);
+                }
+                
                 Close();
             }
         }
