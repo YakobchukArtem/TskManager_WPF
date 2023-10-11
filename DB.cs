@@ -40,9 +40,9 @@ namespace TskManager_WPF
                 connection.Close();
                 sort_db();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed connection");
+                MessageBox.Show("Failed connection: " + ex.Message);
             }
         }
 
@@ -69,9 +69,10 @@ namespace TskManager_WPF
                 connection.Close();
 
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed");
+                // Обробка помилки, виведення повідомлення та логування інформації про помилку
+                MessageBox.Show("Failed connection: " + ex.Message);
             }
             return datatable;
         }
@@ -115,7 +116,6 @@ namespace TskManager_WPF
         public List<TaskItem> get_all_tasks()
         {
             List<TaskItem> taskItems = new List<TaskItem>();
-
             List<TaskItem> uncompletedTasks = new DB_uncompleted().taskread();
             List<TaskItem> completedTasks = new DB_completed().taskread();
             taskItems.AddRange(uncompletedTasks);
@@ -134,9 +134,10 @@ namespace TskManager_WPF
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed");
+                // Обробка помилки, виведення повідомлення та логування інформації про помилку
+                MessageBox.Show("Failed connection: " + ex.Message);
             }
 
         }
@@ -158,9 +159,10 @@ namespace TskManager_WPF
                 connection.Close();
                 sort_db();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed");
+                // Обробка помилки, виведення повідомлення та логування інформації про помилку
+                MessageBox.Show("Failed connection: " + ex.Message);
             }
         }
         public void change_task(int current_task_id, bool is_completed)
@@ -175,9 +177,10 @@ namespace TskManager_WPF
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed");
+                // Обробка помилки, виведення повідомлення та логування інформації про помилку
+                MessageBox.Show("Failed connection: " + ex.Message);
             }
         }
         public void transfer_task(int taskId)
@@ -204,9 +207,10 @@ namespace TskManager_WPF
                 connection.Close();
                 deletetask(taskId, table_name) ;
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed");
+                // Обробка помилки, виведення повідомлення та логування інформації про помилку
+                MessageBox.Show("Failed connection: " + ex.Message);
             }
         }
 
@@ -236,9 +240,10 @@ namespace TskManager_WPF
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed");
+                // Обробка помилки, виведення повідомлення та логування інформації про помилку
+                MessageBox.Show("Failed connection: " + ex.Message);
             }
         }
 
