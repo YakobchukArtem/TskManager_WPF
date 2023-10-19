@@ -16,7 +16,7 @@ namespace TskManager_WPF
         {
             table_name = tableName;
         }
-        protected static string connectdata = "Server=localhost; Database=taskmanager;port=3306;User Id=root;pwd=Artem1390;";
+        protected static string connectdata = "Server=localhost; Database=taskmanager;port=3306;User Id=root;";
         protected MySqlConnection connection = new MySqlConnection(connectdata);
         protected string table_name;
         protected MySqlDataAdapter mysqladapter;
